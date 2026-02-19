@@ -39,3 +39,26 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+# Prisma
+/prisma/migrations/
+/prisma/*.db
+/prisma/*.db-journal
+
+# Удаляем следы старой ошибки
+/src/app/generated/
+
+# Docker data (если создавал папку для Postgres рядом)
+pgdata/
+
+# Local env files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Next.js build
+.next/
+
+
+/src/app/generated/prisma

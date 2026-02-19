@@ -1,0 +1,15 @@
+{
+  "welcome": "Добро пожаловать",
+  "garage": "Гараж",
+  "other": "Другое",
+  "analytics": "Аналитика",
+  "profile": "Профиль",
+  "units_of_distance": "Единицы расстояния",
+  "vin": "Vin",
+  "registration_number": "Регистрационный номер",
+  "fuel_type": "Тип топлива",
+  "additionally": "Дополнительно",
+  "generation": "Поколение",
+  "series": "Серия",
+  "modification": "Модификация"
+}
