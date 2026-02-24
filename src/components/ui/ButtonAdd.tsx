@@ -24,7 +24,7 @@ function ButtonAdd() {
                 w-fit
             "
         >
-            {t('modification')}
+            {t('add_car')}
         </button>
     );
 }

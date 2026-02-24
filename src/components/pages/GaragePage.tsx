@@ -2,15 +2,13 @@
 import { useTranslation } from 'react-i18next';
 import Header from "@/components/ui/Header";
 import ButtonAdd from "@/components/ui/ButtonAdd";
-import { CarModel } from "@prisma/client";
+import {Car} from "@prisma/client";
 import { useState, useEffect } from 'react';
 
-
 interface Props {
-    initialCars: CarModel[];
+    initialCars: Car[];
 }
 
-// УБРАЛИ async!
 export default function GaragePage({ initialCars }: Props) {
     const [mounted, setMounted] = useState(false);
     const { t } = useTranslation();
@@ -33,8 +31,8 @@ export default function GaragePage({ initialCars }: Props) {
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                         {initialCars.map((car) => (
                             <div key={car.id} className="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-                                <div className="font-medium text-lg">{car.name} {car.class}</div>
-                                <div className="text-sm text-gray-400 italic">компонент автомобиля</div>
+                                <div className="font-medium text-lg">{car.carModel.brand.cyrillicName} {car.carModel.cyrillicName}</div>
+                                <div className="text-sm text-gray-400 italic">{car.name}</div>
                             </div>
                         ))}
                     </div>
