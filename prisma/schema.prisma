@@ -7,10 +7,22 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+//Список пользователей
 model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
+  id         Int     @id @default(autoincrement())
+  telegramId BigInt  @unique
+  nickname      String? @unique
+  birthday       DateTime?
+
+  cars    Car[]
+  refueling    Refueling[]
+  repair    Repair[]
+  service    Service[]
+  shower    Shower[]
+  parking    Parking[]
+  trafficTicket    TrafficTicket[]
+
+  @@map("users")
 }
 
 // Таблица Брендов (Mark)
@@ -43,6 +55,8 @@ model CarModel {
   brandId      String   @map("mark_id")
   brand        Brand    @relation(fields: [brandId], references: [id])
 
+  car       Car[]
+
   @@map("car_models")
 }
 
@@ -51,6 +65,9 @@ model FuelType {
   id      Int     @id @default(autoincrement())
   type    String  // дизель/бенз/газ/электро
   subType String? @map("sub_type") // подкатегория (АИ-92, 98 и тд)
+
+  cars    Car[]
+  refueling    Refueling[]
 
   @@map("fuel_types")
 }
@@ -68,6 +85,8 @@ model MileageType {
   id   Int    @id @default(autoincrement())
   type String // км/мили/моточасы
 
+  cars    Car[]
+
   @@map("mileage_types")
 }
 
@@ -75,9 +94,164 @@ model MileageType {
 model ConsumableType {
   id   Int    @id @default(autoincrement())
   type String // фильтр воздушный, масляный...
-  // На скрине было примечание "период замены", добавил поле:
   replacementPeriod String? @map("replacement_period")
+
+  service    Service[]
 
   @@map("consumables_types")
 }
 
+// Список автомобилей (Со связью к пользователю)
+model Car {
+  id   Int    @id @default(autoincrement())
+  mileage Int?
+  vin String?
+  regNumber String? @map("reg_number")
+  releaseDate DateTime? @map("release_date")
+  insuranceDate DateTime? @map("insurance_date")
+  insuranceDuration Int? @map("insurance_duration")
+  technicalInspectionDate DateTime? @map("technical_inspection_date")
+  technicalInspectionDuration Int? @map("technical_inspection_duration")
+  price Int? @map("price")
+  name String? @map("name")
+
+  // В модели Car замените modelId на это:
+  modelId   String   @map("model_id")
+  carModel  CarModel @relation(fields: [modelId], references: [id])
+
+  fuelId Int @map("fuel_id") // поле для связи
+  fuel      FuelType @relation(fields: [fuelId], references: [id]) //Связь
+
+  userId Int @map("user_id") // поле для связи
+  user      User @relation(fields: [userId], references: [id]) //Связь
+
+  mileageTypeId Int @map("mileage_type_id") // поле для связи
+  mileageType      MileageType @relation(fields: [mileageTypeId], references: [id]) //Связь
+
+  refueling    Refueling[]
+  repair    Repair[]
+  service    Service[]
+  shower    Shower[]
+  parking    Parking[]
+  trafficTicket    TrafficTicket[]
+
+  @@map("cars")
+}
+
+// Список трат о заправке (Со связью к пользователю и авто)
+model Refueling {
+  id   Int    @id @default(autoincrement())
+  date DateTime
+  cost Int
+  mileage Int
+  place String?
+  comment String?
+  fullRefueling Boolean @map("full_refueling") @default(false)
+  lastRefuelingMissed Boolean @map("last_refueling_missed") @default(false)
+
+  fuelId Int @map("fuel_id") // поле для связи
+  fuel      FuelType @relation(fields: [fuelId], references: [id]) //Связь
+
+  userId Int @map("user_id") // поле для связи
+  user      User @relation(fields: [userId], references: [id]) //Связь
+
+  carId Int @map("car_id") // поле для связи
+  car      Car @relation(fields: [carId], references: [id]) //Связь
+
+  @@map("refueling")
+}
+
+// Список трат о ремонте (Со связью к пользователю и авто)
+model Repair  {
+  id   Int    @id @default(autoincrement())
+  date DateTime
+  cost Int
+  mileage Int
+  place String?
+  comment String?
+
+  userId Int @map("user_id") // поле для связи
+  user      User @relation(fields: [userId], references: [id]) //Связь
+
+  carId Int @map("car_id") // поле для связи
+  car      Car @relation(fields: [carId], references: [id]) //Связь
+
+  @@map("repair")
+}
+
+// Список трат о ремонте (Со связью к пользователю и авто)
+model Service {
+  id   Int    @id @default(autoincrement())
+  date DateTime
+  cost Int
+  mileage Int
+  place String?
+  comment String?
+  planned_mileage Int?
+  planned_date DateTime?
+
+  consumableTypeId Int @map("consumable_type_id") // поле для связи
+  consumableType ConsumableType @relation(fields: [consumableTypeId], references: [id]) //Связь
+
+  userId Int @map("user_id") // поле для связи
+  user      User @relation(fields: [userId], references: [id]) //Связь
+
+  carId Int @map("car_id") // поле для связи
+  car      Car @relation(fields: [carId], references: [id]) //Связь
+
+  @@map("service")
+}
+
+// Список трат о ремонте (Со связью к пользователю и авто)
+model TrafficTicket {
+  id   Int    @id @default(autoincrement())
+  date DateTime
+  cost Int
+  mileage Int
+  place String?
+  comment String?
+
+  userId Int @map("user_id") // поле для связи
+  user      User @relation(fields: [userId], references: [id]) //Связь
+
+  carId Int @map("car_id") // поле для связи
+  car      Car @relation(fields: [carId], references: [id]) //Связь
+
+  @@map("traffic_ticket")
+}
+
+// Список трат о ремонте (Со связью к пользователю и авто)
+model Parking {
+  id   Int    @id @default(autoincrement())
+  date DateTime
+  cost Int
+  mileage Int
+  place String?
+  comment String?
+
+  userId Int @map("user_id") // поле для связи
+  user      User @relation(fields: [userId], references: [id]) //Связь
+
+  carId Int @map("car_id") // поле для связи
+  car      Car @relation(fields: [carId], references: [id]) //Связь
+
+  @@map("parking")
+}
+
+// Список трат о ремонте (Со связью к пользователю и авто)
+model Shower {
+  id   Int    @id @default(autoincrement())
+  date DateTime
+  cost Int
+  mileage Int
+  place String?
+  comment String?
+
+  userId Int @map("user_id") // поле для связи
+  user      User @relation(fields: [userId], references: [id]) //Связь
+
+  carId Int @map("car_id") // поле для связи
+  car      Car @relation(fields: [carId], references: [id]) //Связь
+
+  @@map("showers")
+}
