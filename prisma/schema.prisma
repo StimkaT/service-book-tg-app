@@ -13,9 +13,71 @@ model User {
   name  String?
 }
 
-model Car {
-  id    Int     @id @default(autoincrement())
-  brand String
-  model String
+// Таблица Брендов (Mark)
+model Brand {
+  id           String   @id // Используем ID из JSON (например, "ABARTH")
+  name         String
+  cyrillicName String   @map("cyrillic_name")
+  numericId    Int      @map("numeric_id")
+  yearFrom     Int      @map("year_from")
+  yearTo       Int?     @map("year_to")
+  popular      Int      @default(0)
+  country      String?
+  updatedAt    DateTime @default(now()) @map("updated_at")
+
+  models       CarModel[]
+
+  @@map("brands")
+}
+
+// Таблица Моделей
+model CarModel {
+  id           String   @id // Например, "ABARTH_500"
+  name         String
+  cyrillicName String   @map("cyrillic_name")
+  yearFrom     Int      @map("year_from")
+  yearTo       Int?     @map("year_to")
+  class        String?
+  updatedAt    DateTime @default(now()) @map("updated_at")
+
+  brandId      String   @map("mark_id")
+  brand        Brand    @relation(fields: [brandId], references: [id])
+
+  @@map("car_models")
+}
+
+// Список типов топлива
+model FuelType {
+  id      Int     @id @default(autoincrement())
+  type    String  // дизель/бенз/газ/электро
+  subType String? @map("sub_type") // подкатегория (АИ-92, 98 и тд)
+
+  @@map("fuel_types")
+}
+
+// Список типов кузова
+model CarBody {
+  id   Int    @id @default(autoincrement())
+  type String // хэтчбек/кроссовер....
+
+  @@map("car_bodies")
+}
+
+// Список типов пробега
+model MileageType {
+  id   Int    @id @default(autoincrement())
+  type String // км/мили/моточасы
+
+  @@map("mileage_types")
+}
+
+// Список типов расходников
+model ConsumableType {
+  id   Int    @id @default(autoincrement())
+  type String // фильтр воздушный, масляный...
+  // На скрине было примечание "период замены", добавил поле:
+  replacementPeriod String? @map("replacement_period")
+
+  @@map("consumables_types")
 }
 

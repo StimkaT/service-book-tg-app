@@ -24,8 +24,7 @@ function ButtonAdd() {
                 w-fit
             "
         >
-            {/* Текст можно обернуть в t('add_car') для локализации */}
-            Добавить автомобиль
+            {t('modification')}
         </button>
     );
 }

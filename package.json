@@ -6,7 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+
+    "start:docker": "docker-compose up --build -d",
+    "stop:docker": "docker compose down",
+    "stop & clear:docker": "docker compose down -v"
   },
   "dependencies": {
     "@prisma/client": "^6.19.2",
@@ -30,6 +34,10 @@
     "postcss": "^8.4.49",
     "prisma": "^6.19.2",
     "tailwindcss": "^3.4.17",
+    "tsx": "^4.21.0",
     "typescript": "^5"
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
   }
 }

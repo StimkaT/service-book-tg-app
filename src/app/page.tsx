@@ -1,17 +1,19 @@
-import ButtonAdd from "@/components/ui/ButtonAdd";
+// app/page.tsx
+import GaragePage from "@/components/pages/GaragePage";
 import { prisma } from "@/lib/db";
-import { User } from "@prisma/client"; // Теперь это будет работать!
+
+export const dynamic = 'force-dynamic';
 
 export default async function Home() {
-    const users = await prisma.user.findMany(); // Или car, если добавил модель
+    // Получаем данные на сервере
+    const carList = await prisma.carModel.findMany();
 
     return (
         <div className="text-green-500">
-            <ButtonAdd></ButtonAdd>
-            привет
-            {/*{users.map((user: User)  => (*/}
-            {/*    <div key={user.id}>{user.email}</div>*/}
-            {/*))}*/}
+            START
+            {/* Передаем данные как обычный массив */}
+            <GaragePage initialCars={JSON.parse(JSON.stringify(carList))} />
+            FINISH
         </div>
     );
 }
