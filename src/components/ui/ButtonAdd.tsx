@@ -1,12 +1,16 @@
 "use client";
 import {useTranslation} from "react-i18next";
 
-function ButtonAdd() {
+interface ButtonAddProps {
+    onClick: () => void;
+}
+
+function ButtonAdd({ onClick }: ButtonAddProps) {
     const { t } = useTranslation();
 
     return (
         <button
-            onClick={() => console.log('click ADD')}
+            onClick={onClick}
             className="
                 /* Базовые стили и мобильная версия (по умолчанию крупнее) */
                 text-white bg-cyan-500 rounded-xl px-6 py-3 font-medium text-base

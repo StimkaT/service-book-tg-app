@@ -20,8 +20,8 @@ export default async function Home() {
     });
 
     return (
-        <div className="text-green-500">
+        <main className="text-gray-700">
             <GaragePage initialCars={JSON.parse(JSON.stringify(userCarsList))} />
-        </div>
+        </main>
     );
 }

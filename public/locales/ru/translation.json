@@ -5,12 +5,18 @@
   "analytics": "Аналитика",
   "profile": "Профиль",
   "units_of_distance": "Единицы расстояния",
-  "vin": "Vin",
+  "vin": "VIN",
   "registration_number": "Регистрационный номер",
   "fuel_type": "Тип топлива",
   "additionally": "Дополнительно",
   "generation": "Поколение",
   "series": "Серия",
   "modification": "Модификация",
-  "add_car": "Добавить транспорт"
+  "add_car": "Добавить транспорт",
+  "new_transport": "Новый транспорт",
+  "select_car_brand": "Выберите марку автомобиля",
+  "select_car_model": "Модель",
+  "select_car_year": "Год выпуска",
+  "select_mileage_type": "Тип пробега",
+  "select_fuel_type": "Тип топлива"
 }

@@ -5,12 +5,18 @@
   "analytics": "Analytics",
   "profile": "Profile",
   "units_of_distance": "Units of distance",
-  "vin": "Vin",
+  "vin": "VIN",
   "registration_number": "Registration number",
   "fuel_type": "Fuel type",
   "additionally": "Additionally",
   "generation": "Generation",
   "series": "Series",
   "modification": "Modification",
-  "add_car": "Add a car"
+  "new_transport": "New transport",
+  "select_car_brand": "Select make",
+  "select_car_model": "Model",
+  "select_car_year": "Year",
+  "select_mileage_type": "Units",
+  "select_fuel_type": "Fuel type",
+  "add_car": "Add vehicle"
 }
