@@ -1,13 +1,13 @@
 "use client";
 import { GiHomeGarage } from "react-icons/gi";
-import { FaWallet } from "react-icons/fa";
+import { FaWallet, FaPlus } from "react-icons/fa";
 import { SiSimpleanalytics } from "react-icons/si";
 import { BsPersonFill } from "react-icons/bs";
 import { ImCross } from "react-icons/im";
-import { FaPlus } from "react-icons/fa";
 
-import {useTranslation} from "react-i18next";
-import {useState} from "react";
+import { useTranslation } from "react-i18next";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 interface NavBarProps {
     className?: string;
@@ -16,39 +16,51 @@ interface NavBarProps {
 function NavBar({ className }: NavBarProps) {
     const { t } = useTranslation();
     const [addedButton, setAddedButton] = useState(false);
+    const router = useRouter();
+
+    // Стили для кнопок навигации
+    const navBtnClass = "flex flex-col items-center justify-center flex-1 text-white/80 hover:text-white transition-colors gap-1";
+    const iconSize = 22;
 
     return (
-        <nav className={className}>
-            <div className="flex flex-row justify-between bg-cyan-500 p-2 pb-4">
-                <button className="flex-1 justify-items-center" onClick={() => console.log('click GARAGE')}>
-                    <GiHomeGarage size={24}/>
-                    <div>{t('garage')}</div>
-                </button>
-                <button className="flex-1 justify-items-center">
-                    <FaWallet size={24}/>
-                    <div>{t('other')}</div>
+        // Контейнер фиксируем снизу, задаем фон и z-index
+        <nav className={`fixed bottom-0 left-0 right-0 bg-cyan-500 shadow-[0_-2px_10px_rgba(0,0,0,0.1)] z-50 ${className}`}>
+            {/* Ограничиваем контент по центру на больших экранах */}
+            <div className="max-w-md mx-auto flex flex-row items-end justify-between px-2 pb-5 pt-3 md:pb-4">
+
+                <button className={navBtnClass} onClick={() => router.push('/')}>
+                    <GiHomeGarage size={iconSize}/>
+                    <span className="text-[10px] font-medium">{t('garage')}</span>
                 </button>
 
-                <button
-                    className="flex items-center justify-center bg-white rounded-full p-2 text-cyan-500"
-                    onClick={() => setAddedButton(!addedButton)}
-                >
-                    {addedButton ? <ImCross size={32} /> : <FaPlus size={32} />}
+                <button className={navBtnClass}>
+                    <FaWallet size={iconSize}/>
+                    <span className="text-[10px] font-medium">{t('other')}</span>
                 </button>
 
-                <button className="flex-1 justify-items-center">
-                    <SiSimpleanalytics size={24}/>
-                    <div>{t('analytics')}</div>
+                {/* Центральная кнопка: вынесена чуть выше за счет отрицательного margin */}
+                <div className="flex-1 flex justify-center -mt-8">
+                    <button
+                        className="flex items-center justify-center bg-white rounded-full h-14 w-14 text-cyan-500 shadow-lg active:scale-90 transition-transform border-4 border-cyan-500"
+                        onClick={() => setAddedButton(!addedButton)}
+                    >
+                        {addedButton ? <ImCross size={20} /> : <FaPlus size={24} />}
+                    </button>
+                </div>
+
+                <button className={navBtnClass}>
+                    <SiSimpleanalytics size={iconSize}/>
+                    <span className="text-[10px] font-medium">{t('analytics')}</span>
                 </button>
-                <button className="flex-1 justify-items-center">
-                    <BsPersonFill size={24}/>
-                    <div>{t('profile')}</div>
+
+                <button className={navBtnClass}>
+                    <BsPersonFill size={iconSize}/>
+                    <span className="text-[10px] font-medium">{t('profile')}</span>
                 </button>
+
             </div>
         </nav>
-    )
+    );
 }
 
-export default NavBar
-
-
+export default NavBar;
