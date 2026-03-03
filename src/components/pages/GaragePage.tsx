@@ -4,6 +4,7 @@ import Header from "@/components/ui/Header";
 import ButtonAdd from "@/components/ui/ButtonAdd";
 import {Car} from "@prisma/client";
 import { useState, useEffect } from 'react';
+import {useRouter} from "next/navigation";
 
 interface Props {
     initialCars: Car[];
@@ -11,12 +12,19 @@ interface Props {
 
 export default function GaragePage({ initialCars }: Props) {
     const [mounted, setMounted] = useState(false);
+    const router = useRouter();
     const { t } = useTranslation();
 
     // Ждем, пока компонент смонтируется в браузере
     useEffect(() => {
         setMounted(true);
     }, []);
+
+
+    // Функция для перехода на главную
+    const handleCreateCar = () => {
+        router.push("/create-car");
+    };
 
     // Пока не смонтировано — возвращаем пустой контейнер или скелетон,
     // который точно совпадет с серверным
@@ -43,9 +51,11 @@ export default function GaragePage({ initialCars }: Props) {
                     </div>
                 )}
                 <div className="mt-10 flex justify-center">
-                    <ButtonAdd />
+                    <ButtonAdd onClick={handleCreateCar} />
                 </div>
             </main>
+
         </div>
+
     );
 }
