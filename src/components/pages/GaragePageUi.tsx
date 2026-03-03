@@ -26,7 +26,6 @@ export default function GaragePageUi({ initialCars }: Props) {
 
     // Функция для перехода на главную
     const handleMain = () => {
-        console.log('qwe')
         router.push("/main");
     };
 
