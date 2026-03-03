@@ -1,5 +1,4 @@
 "use client";
-import { useTranslation } from 'react-i18next';
 import Header from "@/components/ui/Header";
 import ButtonAdd from "@/components/ui/ButtonAdd";
 import {Car} from "@prisma/client";
@@ -10,10 +9,9 @@ interface Props {
     initialCars: Car[];
 }
 
-export default function GaragePage({ initialCars }: Props) {
+export default function GaragePageUi({ initialCars }: Props) {
     const [mounted, setMounted] = useState(false);
     const router = useRouter();
-    const { t } = useTranslation();
 
     // Ждем, пока компонент смонтируется в браузере
     useEffect(() => {
@@ -21,9 +19,15 @@ export default function GaragePage({ initialCars }: Props) {
     }, []);
 
 
-    // Функция для перехода на главную
+    // Функция для перехода к созданию авто
     const handleCreateCar = () => {
         router.push("/create-car");
+    };
+
+    // Функция для перехода на главную
+    const handleMain = () => {
+        console.log('qwe')
+        router.push("/main");
     };
 
     // Пока не смонтировано — возвращаем пустой контейнер или скелетон,
@@ -38,7 +42,7 @@ export default function GaragePage({ initialCars }: Props) {
                 {initialCars.length > 0 ? (
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                         {initialCars.map((car) => (
-                            <div key={car.id} className="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+                            <div key={car.id} className="bg-white p-4 rounded-xl shadow-sm border border-gray-100" onClick={handleMain}>
                                 <div className="font-medium text-lg">{car.carModel.brand.cyrillicName} {car.carModel.cyrillicName}</div>
                                 <div className="text-sm text-gray-400 italic">{car.name}</div>
                             </div>
@@ -46,7 +50,7 @@ export default function GaragePage({ initialCars }: Props) {
                     </div>
                 ) : (
                     <div className="h-full flex flex-col items-center justify-center text-center gap-6">
-                        <img src="https://carconfigurator.ferrari.com/rt-assets/data/cars/296gtb/ui/splashpage.jpg" className="w-32 h-32 rounded-full object-cover" />
+                        <img src="https://carconfigurator.ferrari.com/rt-assets/data/cars/296gtb/ui/splashpage.jpg" className="w-32 h-32 rounded-full object-cover" alt={'Изображение ДОБАВИТЬ ПЕРВОД'}/>
                         <div className="text-gray-500">Гараж пока пустует...</div>
                     </div>
                 )}

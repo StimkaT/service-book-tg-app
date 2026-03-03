@@ -6,7 +6,7 @@ import { BsPersonFill } from "react-icons/bs";
 import { ImCross } from "react-icons/im";
 
 import { useTranslation } from "react-i18next";
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import { useRouter } from "next/navigation";
 
 interface NavBarProps {
@@ -17,23 +17,30 @@ function NavBar({ className }: NavBarProps) {
     const { t } = useTranslation();
     const [addedButton, setAddedButton] = useState(false);
     const router = useRouter();
+    const [mounted, setMounted] = useState(false); // Состояние монтирования
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     // Стили для кнопок навигации
     const navBtnClass = "flex flex-col items-center justify-center flex-1 text-white/80 hover:text-white transition-colors gap-1";
     const iconSize = 22;
-
+    if (!mounted) {
+        return <nav className={`fixed bottom-0 left-0 right-0 bg-cyan-500 h-[72px] ${className}`} />;
+    }
     return (
         // Контейнер фиксируем снизу, задаем фон и z-index
         <nav className={`fixed bottom-0 left-0 right-0 bg-cyan-500 shadow-[0_-2px_10px_rgba(0,0,0,0.1)] z-50 ${className}`}>
             {/* Ограничиваем контент по центру на больших экранах */}
             <div className="max-w-md mx-auto flex flex-row items-end justify-between px-2 pb-5 pt-3 md:pb-4">
 
-                <button className={navBtnClass} onClick={() => router.push('/')}>
+                <button className={navBtnClass} onClick={() => router.push('/main')}>
                     <GiHomeGarage size={iconSize}/>
                     <span className="text-[10px] font-medium">{t('garage')}</span>
                 </button>
 
-                <button className={navBtnClass}>
+                <button className={navBtnClass} onClick={() => router.push('/other')}>
                     <FaWallet size={iconSize}/>
                     <span className="text-[10px] font-medium">{t('other')}</span>
                 </button>
@@ -48,12 +55,12 @@ function NavBar({ className }: NavBarProps) {
                     </button>
                 </div>
 
-                <button className={navBtnClass}>
+                <button className={navBtnClass} onClick={() => router.push('/analytics')}>
                     <SiSimpleanalytics size={iconSize}/>
                     <span className="text-[10px] font-medium">{t('analytics')}</span>
                 </button>
 
-                <button className={navBtnClass}>
+                <button className={navBtnClass} onClick={() => router.push('/profile')}>
                     <BsPersonFill size={iconSize}/>
                     <span className="text-[10px] font-medium">{t('profile')}</span>
                 </button>

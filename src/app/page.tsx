@@ -1,4 +1,4 @@
-import GaragePage from "@/components/pages/GaragePage";
+import GaragePageUi from "@/components/pages/GaragePageUi";
 import { prisma } from "@/lib/db";
 
 export const dynamic = 'force-dynamic';
@@ -21,7 +21,7 @@ export default async function Home() {
 
     return (
         <main className="text-gray-700">
-            <GaragePage initialCars={JSON.parse(JSON.stringify(userCarsList))} />
+            <GaragePageUi initialCars={JSON.parse(JSON.stringify(userCarsList))} />
         </main>
     );
 }
