@@ -14,7 +14,7 @@ function CarProfile() {
                 />
 
                 <div className="flex flex-col ml-2">
-                    <span className="font-bold leading-tight">Марка Машины</span>
+                    <span className="font-bold leading-tight">Марка  и модель Машины</span>
                     <span className="text-sm opacity-90 uppercase">ID: 123456789</span>
                 </div>
             </div>

@@ -2,23 +2,38 @@
 
 import Header from "@/components/ui/Header";
 import ButtonIcon from "@/components/ui/ButtonIcon";
+import CarProfile from "@/components/ui/CarProfile";
+import MileageWidget from "@/components/ui/MileageWidget";
+import {useRouter} from "next/navigation";
+import {MdKeyboardBackspace} from "react-icons/md";
 
 function MainPageUi() {
+    const router = useRouter();
+
+    const handleGoHome = () => {
+        router.push("/");
+    };
 
     return (
         <>
             <div className="flex flex-col h-screen">
-                <Header leftContent={<ButtonIcon/>}/>
+                <Header leftContent={
+                    <ButtonIcon onClick={handleGoHome}
+                                icon={
+                                    <MdKeyboardBackspace className="h-5 w-5 transition-transform group-hover:-translate-x-1" />
+                                }
+                    />
+                } />
 
                 <div className="flex-1">
 
                     <div className="grid grid-cols-6 auto-rows-fr gap-2 p-2 flex-1">
-                        <div className="col-span-6 row-span-2 bg-yellow-500 text-white p-4 rounded shadow">
-                            2 строки / 6 столбцов (Основная инфо)
+                        <div className="col-span-6 row-span-2 bg-yellow-500 text-white p-4 rounded shadow ">
+                            <CarProfile></CarProfile>
                         </div>
 
                         <div className="col-span-6 row-span-1 bg-gray-500 text-white p-4 rounded shadow">
-                            1 строки / 6 столбцов
+                            <MileageWidget mileage={33} mileageType={'km'} ></MileageWidget>
                         </div>
 
                         <div className="col-span-6 row-span-1 bg-gray-500 text-white p-4 rounded shadow">

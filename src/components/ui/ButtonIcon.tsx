@@ -1,21 +1,20 @@
 "use client";
 
-import { MdKeyboardBackspace } from "react-icons/md";
-import { useRouter } from "next/navigation";
+import {ReactNode} from "react";
 
-function ButtonIcon() {
-    const router = useRouter();
+interface ButtonIconProps {
+    onClick?: () => void;
+    icon?: ReactNode;
+}
 
-    const handleBack = () => {
-        router.push("/");
-    };
+function ButtonIcon({onClick, icon} : ButtonIconProps) {
 
     return (
         <button
-            onClick={handleBack}
-            className="group flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-700 transition-all hover:text-blue-600 active:scale-95"
+            onClick={onClick}
+            className="group flex items-center gap-2 py-2 text-sm font-medium text-slate-700 transition-all hover:text-blue-600 active:scale-95"
         >
-            <MdKeyboardBackspace className="h-5 w-5 transition-transform group-hover:-translate-x-1" />
+            {icon}
         </button>
     );
 }
